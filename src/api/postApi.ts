@@ -3,7 +3,7 @@ import type { Post } from "../types/Post";
 import type { Comment } from "../types/Comment";
 
 const API = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL: "https://goalnd-24-05-be.onrender.com",
 });
 
 export const getPosts = () => API.get<Post[]>("/posts");
