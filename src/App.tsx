@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import PostList from "./components/PostList";
 import PostForm from "./components/PostForm";
 import type { Post } from "./types/Post";
