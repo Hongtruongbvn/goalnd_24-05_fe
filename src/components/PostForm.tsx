@@ -33,23 +33,26 @@ const PostForm: React.FC<Props> = ({ postToEdit, onSaved }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>{postToEdit ? "Edit" : "Create"} Post</h2>
+    <form onSubmit={handleSubmit} className="post-form">
+      <h2 className="form-title">{postToEdit ? "Edit" : "Create"} Post</h2>
       <input
+        className="form-input"
         placeholder="Title"
         value={form.title}
         onChange={(e) => setForm({ ...form, title: e.target.value })}
         required
       />
-      <br />
       <textarea
+        className="form-textarea"
         placeholder="Content"
         value={form.content}
         onChange={(e) => setForm({ ...form, content: e.target.value })}
         required
+        rows={5}
       />
-      <br />
-      <button type="submit">{postToEdit ? "Update" : "Create"}</button>
+      <button type="submit" className="form-button">
+        {postToEdit ? "Update" : "Create"}
+      </button>
     </form>
   );
 };

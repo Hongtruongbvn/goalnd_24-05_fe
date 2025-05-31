@@ -25,7 +25,7 @@ const PostList: React.FC<Props> = ({ onEdit, refresh }) => {
   };
 
   const handleCreateComment = async (postId: number) => {
-    if (!newComment[postId]) return;
+    if (!newComment[postId]?.trim()) return;
 
     await createComment(postId, newComment[postId]);
     setNewComment((prev) => ({ ...prev, [postId]: "" }));
@@ -39,43 +39,56 @@ const PostList: React.FC<Props> = ({ onEdit, refresh }) => {
   }, [refresh]);
 
   return (
-    <div>
-      <h2>Posts</h2>
+    <div className="post-list">
+      <h2 className="post-list-title">Posts</h2>
       {posts.map((p) => (
-        <div
-          key={p.id}
-          style={{
-            border: "1px solid #ccc",
-            padding: "1em",
-            marginBottom: "10px",
-          }}
-        >
-          <h3>{p.title}</h3>
-          <p>{p.content}</p>
-          <button onClick={() => onEdit(p)}>Edit</button>
-          <button onClick={() => deletePost(p.id).then(fetchPosts)}>
-            Delete
-          </button>
+        <div key={p.id} className="post-card">
+          <h3 className="post-title">{p.title}</h3>
+          <p className="post-content">{p.content}</p>
+          <div className="post-actions">
+            <button
+              className="action-button edit-button"
+              onClick={() => onEdit(p)}
+            >
+              Edit
+            </button>
+            <button
+              className="action-button delete-button"
+              onClick={() => deletePost(p.id).then(fetchPosts)}
+            >
+              Delete
+            </button>
+          </div>
 
-          <div style={{ marginTop: "10px", paddingLeft: "1em" }}>
-            <h4>Comments:</h4>
-            <ul>
+          <div className="comments-section">
+            <h4 className="comments-title">Comments:</h4>
+            <ul className="comments-list">
               {comments[p.id]?.map((c) => (
-                <li key={c.id}>
-                  <strong>{c.content}</strong> —{" "}
-                  {new Date(c.created_at).toLocaleString()}
+                <li key={c.id} className="comment-item">
+                  <p className="comment-content">{c.content}</p>
+                  <span className="comment-date">
+                    {new Date(c.created_at).toLocaleString()}
+                  </span>
                 </li>
               ))}
             </ul>
-            <input
-              type="text"
-              placeholder="Write a comment..."
-              value={newComment[p.id] || ""}
-              onChange={(e) =>
-                setNewComment((prev) => ({ ...prev, [p.id]: e.target.value }))
-              }
-            />
-            <button onClick={() => handleCreateComment(p.id)}>Comment</button>
+            <div className="comment-form">
+              <input
+                type="text"
+                className="comment-input"
+                placeholder="Write a comment..."
+                value={newComment[p.id] || ""}
+                onChange={(e) =>
+                  setNewComment((prev) => ({ ...prev, [p.id]: e.target.value }))
+                }
+              />
+              <button
+                className="comment-button"
+                onClick={() => handleCreateComment(p.id)}
+              >
+                Post
+              </button>
+            </div>
           </div>
         </div>
       ))}
